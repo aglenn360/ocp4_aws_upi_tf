@@ -2,7 +2,7 @@ aws_bootstrap_instance_type = "m4.large"
 aws_master_instance_type = "m4.xlarge"
 aws_master_root_volume_type = "gp2"
 aws_master_root_volume_size = 64
-aws_ami = "ami-053073b95aa285347"
+aws_ami = "ami-00801675c587fe451"
 aws_region = "eu-west-2"
 
 ##List string
