@@ -36,8 +36,8 @@ https://github.com/openshift/installer/tree/master/docs/user/aws
 2. Clone this repository
 
 ```sh
-  $> git clone https://github.com/contino/nbs-openshift.git
-  $> cd awsupi
+  $> git clone https://github.com/aglenn360/ocp4_aws_upi_tf.git
+  $> cd ocp4_aws_upi_tf
 ```
 
 3. Initialize Terraform working directories (current and worker):
