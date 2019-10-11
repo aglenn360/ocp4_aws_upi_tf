@@ -1,19 +1,19 @@
 #! /bin/bash
 
 echo "CONTROL PLANE PROVISIONING STARTED..."
-terraform12 init 
+terraform init 
 
 if [ $(echo $?) != 0 ]; then
 	exit
 fi
 
-terraform12 plan
+terraform plan
 
 if [ $(echo $?) != 0 ]; then
 	exit
 fi
 
-terraform12 apply -auto-approve
+terraform apply -auto-approve
 
 if [ $(echo $?) != 0 ]; then
 	exit
@@ -25,11 +25,11 @@ if [ $(echo $?) != 0 ]; then
         echo "Timed out waiting for bootstrap to complete. Sometimes it can take more that 30 minutes.
 Please ssh to bootstrap VM and run 'journalctl -b -f -u bootkube.service' command to track bootstraping process. 
 Once it completes, continue cluster provisioning manually:
-Destroy bootstrap vm: terraform12 destroy -target=module.bootstrap -auto-approve
+Destroy bootstrap vm: terraform destroy -target=module.bootstrap -auto-approve
 export KUBECONFIG environment variable: export KUBECONFIG=$(pwd)/ignition-files/auth/kubeconfig
 delete default ingress controller object: oc delete ingresscontroller default -n openshift-ingress-operator
 create customized default ingress controller object: oc create -f ingresscontroller-default.yaml
-Create compute nodes: cd worker; terraform12 apply -auto-approve
+Create compute nodes: cd worker; terraform apply -auto-approve
 Approve any pending CSRs:
 oc get csr -o json | jq -r '.items[] | select(.status == {} ) | .metadata.name' | xargs oc adm certificate approve
 		"
@@ -44,7 +44,7 @@ oc create -f ingresscontroller-default.yaml
 
 echo "DESTROYING BOOTSTRAP VM..."
 
-terraform12 destroy -target=module.bootstrap -auto-approve
+terraform destroy -target=module.bootstrap -auto-approve
 
 if [ $(echo $?) != 0 ]; then
 	exit
@@ -82,7 +82,7 @@ sleep 5
 
 echo "Searching for any Pending CSRs"
 
-#worker_count=`cat worker/terraform12.tfvars | grep worker_count | awk '{print $3}'`
+#worker_count=`cat worker/terraform.tfvars | grep worker_count | awk '{print $3}'`
 
 while [ $(oc get csr | grep worker | grep Approved | wc -l) != $worker_count ]; do
 	oc get csr -o json | jq -r '.items[] | select(.status == {} ) | .metadata.name' | xargs oc adm certificate approve
